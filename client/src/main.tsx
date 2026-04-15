@@ -4,6 +4,7 @@ import "./index.css";
 import App from "./App.tsx";
 import { ClerkProvider } from "@clerk/react";
 import { env } from "./lib/env.ts";
+
 createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <ClerkProvider publishableKey={env.clerkPublishableKey as string}>
