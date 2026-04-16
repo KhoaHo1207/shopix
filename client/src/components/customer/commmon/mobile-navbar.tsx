@@ -49,8 +49,7 @@ const sheetContent =
 
 const brandWrap = "flex items-center gap-3";
 
-const brandTitle =
-  "text-[25px] font-semibold tracking-[-0.02em] text-foreground";
+const brandTitle = "text-[25px] font-semibold tracking-[-0.02em] text-primary";
 
 const brandBlock = "px-5 py-6 sm:px-6";
 
@@ -123,7 +122,9 @@ export function CustomerMobileNavbar({
           <div className={brandBlock}>
             <Link to={"/"} className={brandWrap}>
               <Store className="h-10 w-10" />
-              <span className={brandTitle}>E-Shopify</span>
+              <span className={brandTitle}>
+                Shop<span className="text-foreground">ix</span>
+              </span>
             </Link>
           </div>
           <Separator />

@@ -48,8 +48,7 @@ const iconLink =
 
 const brandWrap = "flex shrink-0 items-center gap-3";
 
-const brandTitle =
-  "text-[25px] font-semibold tracking-[-0.02em] text-foreground";
+const brandTitle = "text-[25px] font-semibold tracking-[-0.02em] text-primary";
 
 const desktopCollectionsWrap = "ml-6 hidden lg:block";
 
@@ -117,7 +116,9 @@ export function CustomerNavbar() {
       <div className={shell}>
         <Link to={"/"} className={brandWrap}>
           <Store className="h-10 w-10" />
-          <span className={brandTitle}>Shopix</span>
+          <span className={brandTitle}>
+            Shop<span className="text-foreground">ix</span>
+          </span>
         </Link>
 
         <div className={desktopCollectionsWrap}>

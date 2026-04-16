@@ -7,7 +7,7 @@ import { ok } from "./utils/envelop";
 import { notFound } from "./middleware/notFound";
 import { errorHandler } from "./middleware/errorHandler";
 import { clerkMiddleware } from "@clerk/express";
-import authRouter from "./routes/auth.route";
+import authRouter from "./routes/auth/auth.route";
 
 async function mainEntryFunction() {
   await connectDB();
@@ -53,7 +53,7 @@ async function mainEntryFunction() {
   });
 
   app.use("/api/v1/auth", authRouter);
-  
+
   app.use(notFound);
   app.use(errorHandler);
 
