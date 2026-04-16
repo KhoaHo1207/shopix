@@ -1,5 +1,8 @@
-function App() {
-  return <main className="bg-red-500">Heelo</main>;
-}
+import { RouterProvider } from "react-router-dom";
+import { router } from "./routes";
+import { useBootstrapAuth } from "./features/auth/useBootstrapAuth";
 
-export default App;
+export default function App() {
+  useBootstrapAuth();
+  return <RouterProvider router={router} />;
+}

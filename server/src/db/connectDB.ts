@@ -1,5 +1,5 @@
+import "../loadEnv";
 import mongoose from "mongoose";
-import "dotenv/config";
 
 export async function connectDB() {
   const connn = await mongoose.connect(process.env.MONGO_URI as string);

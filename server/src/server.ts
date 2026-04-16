@@ -1,5 +1,5 @@
+import "./loadEnv";
 import express from "express";
-import "dotenv/config";
 import connectDB from "./db/connectDB";
 import cors from "cors";
 import morgan from "morgan";
@@ -28,7 +28,21 @@ async function mainEntryFunction() {
 
   app.use(express.json());
   app.use(morgan("dev"));
-  app.use(clerkMiddleware());
+  const publishableKey = process.env.CLERK_PUBLISHABLE_KEY;
+  const secretKey = process.env.CLERK_SECRET_KEY;
+
+  if (!publishableKey?.trim() || !secretKey?.trim()) {
+    throw new Error(
+      "Missing CLERK_PUBLISHABLE_KEY or CLERK_SECRET_KEY. Set them in server/.env and restart the process (nodemon does not reload when only .env changes)."
+    );
+  }
+
+  app.use(
+    clerkMiddleware({
+      publishableKey,
+      secretKey,
+    })
+  );
 
   app.get("/health", (_req, res) => {
     return res.status(200).json(

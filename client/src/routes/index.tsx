@@ -1,7 +1,7 @@
 import AdminLayout from "@/layout/AdminLayout";
 import { ProtectedLayout } from "@/layout/auth/ProtectedLayout";
 import { PublicOnlyLayout } from "@/layout/auth/PublicOnlyLayout";
-import { RoleGuardLayout } from "@/layout/auth/RoleguardLayout";
+import { RoleGuardLayout } from "@/layout/auth/RoleGuardLayout";
 import CustomerLayout from "@/layout/CustomerLayout";
 import AdminDashboard from "@/pages/admin/dashboard";
 import AdminOrders from "@/pages/admin/orders";
@@ -15,6 +15,8 @@ import CollectionDetailPage from "@/pages/customer/collection-detail";
 import { StoreHome } from "@/pages/customer/home";
 import CustomerOrderSuccessPage from "@/pages/customer/order-success";
 import { createBrowserRouter } from "react-router-dom";
+import CustomerAccount from "@/pages/customer/account";
+import CustomerProfile from "@/pages/customer/profile";
 
 export const router = createBrowserRouter([
   {
@@ -44,6 +46,10 @@ export const router = createBrowserRouter([
             path: "collection/:id",
             element: <CollectionDetailPage />,
           },
+          {
+            path: "account",
+            element: <CustomerAccount />,
+          },
         ],
       },
       {
@@ -52,6 +58,10 @@ export const router = createBrowserRouter([
           {
             path: "order-success",
             element: <CustomerOrderSuccessPage />,
+          },
+          {
+            path: "profile",
+            element: <CustomerProfile />,
           },
         ],
       },
