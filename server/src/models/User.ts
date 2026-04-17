@@ -3,7 +3,7 @@ import { required } from "zod/mini";
 
 export type UserRole = "user" | "admin";
 
-const addressSchema = new mongoose.Schema(
+const AddressSchema = new mongoose.Schema(
   {
     fullName: {
       type: String,
@@ -67,7 +67,7 @@ const UserSchema = new mongoose.Schema(
       min: 0,
     },
     addresses: {
-      type: [addressSchema],
+      type: [AddressSchema],
       default: [],
     },
   },

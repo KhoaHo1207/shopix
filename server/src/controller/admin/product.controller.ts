@@ -1,17 +1,17 @@
 import type { Request, Response } from "express";
-import Category from "../models/Category";
-import Product from "../models/Product";
-import { asyncHandler } from "../utils/asyncHandler";
-import { ok } from "../utils/envelop";
+import { getDbUserFromReq } from "../../middleware/auth";
+import { Category } from "../../models/Category";
+import { Product } from "../../models/Product";
+import { AppError } from "../../utils/AppError";
+import { asyncHandler } from "../../utils/asyncHandler";
+import { uploadManyBuffersToCloudinary } from "../../utils/cloudinary";
+import { ok } from "../../utils/envelop";
 import {
   requireFound,
   requireNumber,
   requireText,
   toTitleCase,
-} from "../utils/helpers";
-import { AppError } from "../utils/AppError";
-import { uploadManyBuffersToCloudinary } from "../utils/cloudinary";
-import { getDbUserFromReq } from "../middleware/auth";
+} from "../../utils/helpers";
 
 type UploadedImage = {
   url: string;
@@ -32,8 +32,8 @@ export const postCategory = asyncHandler(
     const name = String(req.body.name || "").trim();
 
     requireText(name, "Name is required");
-
-    const category = await Category.create({ name });
+    const formattedName = toTitleCase(name);
+    const category = await Category.create({ name: formattedName });
 
     res.status(201).json(ok(category));
   }
@@ -244,5 +244,5 @@ export const putProduct = asyncHandler(async (req: Request, res: Response) => {
     "name"
   );
 
-  res.json(ok(updatedProduct));
+  res.status(200).json(ok(updatedProduct));
 });

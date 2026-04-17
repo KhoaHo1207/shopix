@@ -9,6 +9,11 @@ import { errorHandler } from "./middleware/errorHandler";
 import { clerkMiddleware } from "@clerk/express";
 import authRouter from "./routes/auth/auth.route";
 import adminProductRouter from "./routes/admin/product.route";
+import customerProductRouter from "./routes/customer/product.route";
+import { adminPromoRouter } from "./controller/admin/promo.controller";
+import { adminOrderRouter } from "./routes/admin/order.route";
+import { adminSettingRouter } from "./routes/admin/setting.route";
+import { adminDashboardRouter } from "./routes/admin/dashboard.route";
 
 async function mainEntryFunction() {
   await connectDB();
@@ -52,9 +57,16 @@ async function mainEntryFunction() {
       })
     );
   });
-
+  //auth routes
   app.use("/api/v1/auth", authRouter);
+  //admin routes
   app.use("/api/v1/admin", adminProductRouter);
+  app.use("/api/v1/admin", adminPromoRouter);
+  app.use("/api/v1/admin", adminOrderRouter);
+  app.use("/api/v1/admin", adminSettingRouter);
+  app.use("/api/v1/admin", adminDashboardRouter);
+  //customer routes
+  app.use("/api/v1/customer", customerProductRouter);
 
   app.use(notFound);
   app.use(errorHandler);

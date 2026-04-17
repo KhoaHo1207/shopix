@@ -1,23 +1,56 @@
-import mongoose from "mongoose";
+import mongoose, { HydratedDocument, Schema, Types } from "mongoose";
 
-const productImageSchema = new mongoose.Schema({
-  url: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  publicId: {
-    type: String,
-    required: true,
-    trim: true,
-  },
-  isCover: {
-    type: Boolean,
-    default: false,
-  },
-});
+export type ProductImage = {
+  url: string;
+  publicId: string;
+  isCover: boolean;
+};
 
-const productSchema = new mongoose.Schema(
+export type ProductSize = "S" | "M" | "L" | "XL";
+export type ProductStatus = "active" | "inactive";
+
+export type Product = {
+  title: string;
+  description: string;
+  category: Types.ObjectId;
+  brand: string;
+  stock: number;
+  images: ProductImage[];
+  colors: string[];
+  sizes: ProductSize[];
+  price: number;
+  salePercentage: number;
+  status: ProductStatus;
+  createdBy: Types.ObjectId;
+  createdAt: Date;
+  updatedAt: Date;
+};
+
+export type ProductDocument = HydratedDocument<Product>;
+
+const productImageSchema = new mongoose.Schema(
+  {
+    url: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    publicId: {
+      type: String,
+      required: true,
+      trim: true,
+    },
+    isCover: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  {
+    _id: false,
+  }
+);
+
+const ProductSchema = new mongoose.Schema(
   {
     title: {
       type: String,
@@ -30,7 +63,7 @@ const productSchema = new mongoose.Schema(
       trim: true,
     },
     category: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "Category",
       required: true,
     },
@@ -43,7 +76,6 @@ const productSchema = new mongoose.Schema(
       type: Number,
       required: true,
       min: 0,
-      default: 0,
     },
     images: {
       type: [productImageSchema],
@@ -55,14 +87,14 @@ const productSchema = new mongoose.Schema(
     },
     sizes: {
       type: [String],
-      enum: ["S", "M", "L", "XL", "XXL"],
       default: [],
+      enum: ["S", "M", "L", "XL"],
     },
     price: {
       type: Number,
       required: true,
     },
-    salePrice: {
+    salePercentage: {
       type: Number,
       default: 0,
     },
@@ -72,17 +104,13 @@ const productSchema = new mongoose.Schema(
       default: "active",
     },
     createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: "User",
       required: true,
     },
   },
-  {
-    timestamps: true,
-  }
+  { timestamps: true }
 );
 
-const Product =
-  mongoose.models.Product || mongoose.model("Product", productSchema);
-
-export default Product;
+export const Product =
+  mongoose.models.Product || mongoose.model<Product>("Product", ProductSchema);

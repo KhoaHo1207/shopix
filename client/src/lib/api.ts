@@ -12,13 +12,27 @@ export function setApiTokenGetter(getter: () => Promise<string | null>) {
 
 const api = axios.create({
   baseURL: env.backendUrl,
-  headers: {
-    "Content-Type": "application/json",
-  },
   withCredentials: true,
 });
 
 api.interceptors.request.use(async (config) => {
+  // Let the browser/axios set proper multipart boundaries for FormData.
+  // For non-FormData requests, default to JSON if caller didn't override.
+  const isFormData =
+    typeof FormData !== "undefined" && config.data instanceof FormData;
+
+  if (isFormData) {
+    if (config.headers) {
+      delete (config.headers as Record<string, unknown>)["Content-Type"];
+    }
+  } else {
+    config.headers = config.headers || ({} as AxiosRequestHeaders);
+    if (!(config.headers as Record<string, unknown>)["Content-Type"]) {
+      (config.headers as Record<string, unknown>)["Content-Type"] =
+        "application/json";
+    }
+  }
+
   if (!tokenGetter) return config;
 
   const token = await tokenGetter();

@@ -1,9 +1,9 @@
 import { clerkClient, getAuth } from "@clerk/express";
 import type { Request, Response } from "express";
-import { User } from "../models/User";
-import { AppError } from "../utils/AppError";
-import { asyncHandler } from "../utils/asyncHandler";
-import { ok } from "../utils/envelop";
+import { User } from "../../models/User";
+import { AppError } from "../../utils/AppError";
+import { asyncHandler } from "../../utils/asyncHandler";
+import { ok } from "../../utils/envelop";
 
 export const sync = asyncHandler(async (req: Request, res: Response) => {
   const { userId } = getAuth(req);
